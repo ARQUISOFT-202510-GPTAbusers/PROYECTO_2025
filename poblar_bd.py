@@ -1,6 +1,6 @@
 import os
-import random
 import django
+import random
 from faker import Faker
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "monitoring.settings") 
@@ -21,12 +21,12 @@ def poblar_base_datos(n=2500):
             genero=random.choice(["Masculino", "Femenino", "Otro"]),
             cedula=fake.unique.random_number(digits=10),
             correo=fake.unique.email(),
-            telefono=fake.phone_number(),
+            telefono=fake.numerify(text='###########'),
             direccion=fake.address(),
             tipo_sangre=random.choice(["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]),
             eps=fake.company(),
             contacto_emergencia_nombre=fake.name(),
-            contacto_emergencia_telefono=fake.phone_number(),
+            contacto_emergencia_telefono=fake.numerify(text='###########'),
             relacion_contacto=random.choice(["Padre", "Madre", "Hermano", "Pareja", "Amigo", "Otro"])
         )
         paciente.save()
@@ -50,9 +50,6 @@ def poblar_base_datos(n=2500):
             saturacion_oxigeno=random.randint(95, 100)
         )
         signos.save()
-    
-    print(f"✅ Se han insertado {n} pacientes, historias clínicas y registros de signos vitales correctamente.")
 
-# Ejecutar la función para poblar la base de datos
 if __name__ == "__main__":
     poblar_base_datos(2500)
