@@ -5,6 +5,7 @@ class SignosVitales(models.Model):
     # Historia clínica
     historia_clinica = models.OneToOneField(HistoriaClinica, on_delete=models.CASCADE, related_name="signos_vitales")
 
+    # Signos vitales
     fecha_medicion = models.DateTimeField(auto_now_add=True) 
     presion_arterial = models.CharField(max_length=10, blank=True, null=True) 
     frecuencia_cardiaca = models.IntegerField(blank=True, null=True)  

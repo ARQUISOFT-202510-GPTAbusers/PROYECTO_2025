@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Clínica - {{ paciente.nombre }} {{ paciente.apellido }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        p {
+            margin: 5px 0;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historia Clínica</h1>
+    
+    <div class="section">
+        <h2>Datos del Paciente</h2>
+        <p><span class="label">Nombre:</span> {{ paciente.nombre }} {{ paciente.apellido }}</p>
+        <p><span class="label">Cédula:</span> {{ paciente.cedula }}</p>
+        <p><span class="label">Fecha de Nacimiento:</span> {{ paciente.fecha_nacimiento }}</p>
+        <p><span class="label">Género:</span> {{ paciente.genero }}</p>
+        <p><span class="label">Tipo de Sangre:</span> {{ paciente.tipo_sangre }}</p>
+        <p><span class="label">EPS:</span> {{ paciente.eps }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Contacto</h2>
+        <p><span class="label">Correo:</span> {{ paciente.correo }}</p>
+        <p><span class="label">Teléfono:</span> {{ paciente.telefono }}</p>
+        <p><span class="label">Dirección:</span> {{ paciente.direccion }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Contacto de Emergencia</h2>
+        <p><span class="label">Nombre:</span> {{ paciente.contacto_emergencia_nombre }}</p>
+        <p><span class="label">Teléfono:</span> {{ paciente.contacto_emergencia_telefono }}</p>
+        <p><span class="label">Relación:</span> {{ paciente.relacion_contacto }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Antecedentes Médicos</h2>
+        <p><span class="label">Antecedentes Personales:</span> {{ historia_clinica.antecedentes_personales }}</p>
+        <p><span class="label">Antecedentes Familiares:</span> {{ historia_clinica.antecedentes_familiares }}</p>
+        <p><span class="label">Alergias:</span> {{ historia_clinica.alergias }}</p>
+        <p><span class="label">Medicamentos Actuales:</span> {{ historia_clinica.medicamentos_actuales }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Última Evaluación de Signos Vitales</h2>
+        <p><span class="label">Fecha de Medición:</span> {{ signos_vitales.fecha_medicion }}</p>
+        <p><span class="label">Presión Arterial:</span> {{ signos_vitales.presion_arterial }}</p>
+        <p><span class="label">Frecuencia Cardíaca:</span> {{ signos_vitales.frecuencia_cardiaca }} bpm</p>
+        <p><span class="label">Frecuencia Respiratoria:</span> {{ signos_vitales.frecuencia_respiratoria }} rpm</p>
+        <p><span class="label">Temperatura:</span> {{ signos_vitales.temperatura }} °C</p>
+        <p><span class="label">Saturación de Oxígeno:</span> {{ signos_vitales.saturacion_oxigeno }} %</p>
+    </div>
+</body>
+</html>
