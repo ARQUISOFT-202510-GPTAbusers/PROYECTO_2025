@@ -1,5 +1,10 @@
+import os
 import random
+import django
 from faker import Faker
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "monitoring.settings") 
+django.setup()
 
 from pacientes.models import Paciente
 from historias_clinicas.models import HistoriaClinica
