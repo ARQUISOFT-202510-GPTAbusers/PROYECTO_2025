@@ -4,5 +4,5 @@ from .views import consultar_historia_clinica, crear_historia_clinica, verificar
 urlpatterns = [
     path("historia-clinica/<str:cedula>/", consultar_historia_clinica, name="historia_clinica"),
     path('crear-historia-clinica/<str:cedula>/', crear_historia_clinica, name='crear_historia_clinica'),
-    path('api/verificar-paciente/<str:cedula>/', verificar_paciente, name='verificar_paciente'),
+    path('verificar-paciente/<str:cedula>/', verificar_paciente, name='verificar_paciente'),
 ]
