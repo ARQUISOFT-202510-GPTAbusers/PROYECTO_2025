@@ -7,12 +7,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 20px auto;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 10px;
             max-width: 800px;
-            margin: auto;
             background-color: #f9f9f9;
         }
         h1, h2 {
@@ -56,10 +55,26 @@
             padding: 0;
             list-style-type: none;
         }
+        .form-errors {
+            color: red;
+            background: #ffe0e0;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Crear Historia Clínica</h1>
+
+    {% if errores %}
+        <div class="form-errors">
+            <h3>⚠️ Errores en el formulario:</h3>
+            {{ paciente_form.errors }}
+            {{ historia_form.errors }}
+            {{ signos_form.errors }}
+        </div>
+    {% endif %}
 
     <form method="post" action="{% url 'crear_historia_clinica' cedula=cedula %}">
         {% csrf_token %}
