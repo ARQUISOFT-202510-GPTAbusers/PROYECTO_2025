@@ -4,10 +4,10 @@ from .logic.logic_pacientes import get_historia_clinica
 from .models import Paciente
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
-from django.shortcuts import redirect
 from historias_clinicas.forms import HistoriaClinicaForm
 from pacientes.forms import PacienteForm
 from signos_vitales.forms import SignosVitalesForm
+from django.views.decorators.csrf import csrf_exempt
 
 def consultar_historia_clinica(request, cedula):
     data = get_historia_clinica(cedula)
@@ -21,6 +21,7 @@ def verificar_paciente(request, cedula):
     existe = Paciente.objects.filter(cedula=cedula).exists()
     return JsonResponse({'existe': existe})
 
+@csrf_exempt
 def crear_historia_clinica(request, cedula):
     if Paciente.objects.filter(cedula=cedula).exists():
         return HttpResponseBadRequest("Ya existe un paciente con esta cédula.")
