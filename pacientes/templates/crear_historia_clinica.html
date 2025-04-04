@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Historia Clínica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .errorlist {
+            color: red;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Historia Clínica</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="section">
+            <h2>Datos del Paciente</h2>
+            {{ paciente_form.nombre.label_tag }} {{ paciente_form.nombre }}
+            {{ paciente_form.apellido.label_tag }} {{ paciente_form.apellido }}
+            {{ paciente_form.cedula.label_tag }} {{ paciente_form.cedula }}
+            {{ paciente_form.fecha_nacimiento.label_tag }} {{ paciente_form.fecha_nacimiento }}
+            {{ paciente_form.genero.label_tag }} {{ paciente_form.genero }}
+            {{ paciente_form.tipo_sangre.label_tag }} {{ paciente_form.tipo_sangre }}
+            {{ paciente_form.eps.label_tag }} {{ paciente_form.eps }}
+        </div>
+
+        <div class="section">
+            <h2>Contacto</h2>
+            {{ paciente_form.correo.label_tag }} {{ paciente_form.correo }}
+            {{ paciente_form.telefono.label_tag }} {{ paciente_form.telefono }}
+            {{ paciente_form.direccion.label_tag }} {{ paciente_form.direccion }}
+        </div>
+
+        <div class="section">
+            <h2>Contacto de Emergencia</h2>
+            {{ paciente_form.contacto_emergencia_nombre.label_tag }} {{ paciente_form.contacto_emergencia_nombre }}
+            {{ paciente_form.contacto_emergencia_telefono.label_tag }} {{ paciente_form.contacto_emergencia_telefono }}
+            {{ paciente_form.relacion_contacto.label_tag }} {{ paciente_form.relacion_contacto }}
+        </div>
+
+        <div class="section">
+            <h2>Antecedentes Médicos</h2>
+            {{ historia_form.antecedentes_personales.label_tag }} {{ historia_form.antecedentes_personales }}
+            {{ historia_form.antecedentes_familiares.label_tag }} {{ historia_form.antecedentes_familiares }}
+            {{ historia_form.alergias.label_tag }} {{ historia_form.alergias }}
+            {{ historia_form.medicamentos_actuales.label_tag }} {{ historia_form.medicamentos_actuales }}
+        </div>
+
+        <div class="section">
+            <h2>Signos Vitales</h2>
+            {{ signos_form.presion_arterial.label_tag }} {{ signos_form.presion_arterial }}
+            {{ signos_form.frecuencia_cardiaca.label_tag }} {{ signos_form.frecuencia_cardiaca }}
+            {{ signos_form.frecuencia_respiratoria.label_tag }} {{ signos_form.frecuencia_respiratoria }}
+            {{ signos_form.temperatura.label_tag }} {{ signos_form.temperatura }}
+            {{ signos_form.saturacion_oxigeno.label_tag }} {{ signos_form.saturacion_oxigeno }}
+        </div>
+
+        <button type="submit">Crear Historia Clínica</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cedulaInput = document.getElementById("id_cedula");
+            if (cedulaInput) {
+                cedulaInput.readOnly = true;
+            }
+        });
+    </script>
+</body>
+</html>
