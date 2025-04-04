@@ -61,7 +61,7 @@
 <body>
     <h1>Crear Historia Clínica</h1>
 
-    <form method="post">
+    <form method="post" action="{% url 'crear_historia_clinica' cedula=cedula %}">
         {% csrf_token %}
 
         <div class="section">
