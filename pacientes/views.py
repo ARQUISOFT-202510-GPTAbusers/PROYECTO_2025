@@ -43,7 +43,7 @@ def crear_historia_clinica(request, cedula):
             signos.historia_clinica = historia
             signos.save()
 
-            return redirect('consultar_historia_clinica', cedula=cedula)
+            return consultar_historia_clinica(request, cedula)
         else:
             return render(request, 'crear_historia_clinica.html', {
                 'paciente_form': paciente_form,
