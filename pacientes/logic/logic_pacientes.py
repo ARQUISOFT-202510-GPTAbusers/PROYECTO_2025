@@ -1,9 +1,11 @@
+import time
 from ..models import Paciente
 from historias_clinicas.models import HistoriaClinica
 from signos_vitales.models import SignosVitales
 
 def get_historia_clinica(cedula):
     """Consulta la historia clínica y los signos vitales de un paciente por su cédula."""
+    time.sleep(10)
     try:
         paciente = Paciente.objects.get(cedula=cedula) 
         historia = HistoriaClinica.objects.get(paciente=paciente)
