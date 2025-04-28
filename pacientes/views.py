@@ -12,7 +12,7 @@ import pybreaker
 from pybreaker import CircuitBreakerError
 
 historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
-    fail_max = 1,
+    fail_max = 2,
     reset_timeout = 60
 )
 
