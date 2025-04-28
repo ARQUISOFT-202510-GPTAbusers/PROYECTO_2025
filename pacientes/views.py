@@ -12,8 +12,8 @@ import pybreaker
 from pybreaker import CircuitBreakerError
 
 historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
-    fail_max=3,
-    reset_timeout=60
+    fail_max = 1,
+    reset_timeout = 60
 )
 
 def consultar_historia_clinica(request, cedula):
