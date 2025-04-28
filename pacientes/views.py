@@ -8,14 +8,24 @@ from historias_clinicas.forms import HistoriaClinicaForm
 from pacientes.forms import PacienteForm
 from signos_vitales.forms import SignosVitalesForm
 from django.views.decorators.csrf import csrf_exempt
+import pybreaker
+from pybreaker import CircuitBreakerError
+
+historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
+    fail_max=3,
+    reset_timeout=60
+)
 
 def consultar_historia_clinica(request, cedula):
-    data = get_historia_clinica(cedula)
+    try:
+        data = get_historia_clinica(cedula)
 
-    if "error" in data:
-        raise Http404(data["error"]) 
+        if "error" in data:
+            raise Http404(data["error"]) 
 
-    return render(request, "historia_clinica.html", data)
+        return render(request, "historia_clinica.html", data)
+    except CircuitBreakerError:
+        return render(request, "error_historia_clinica.html", status=503)
 
 def verificar_paciente(request, cedula):
     existe = Paciente.objects.filter(cedula=cedula).exists()
