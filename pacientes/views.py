@@ -19,6 +19,10 @@ historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
 def consultar_historia_clinica(request, cedula):
     try:
         return _consultar_historia_clinica_con_breaker(request, cedula)
+    
+    except Http404:
+        raise 
+    
     except CircuitBreakerError:
         return render(request, "error_historia_clinica.html", status=503)
 
