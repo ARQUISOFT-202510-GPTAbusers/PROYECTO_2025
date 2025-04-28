@@ -18,12 +18,7 @@ historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
 
 def consultar_historia_clinica(request, cedula):
     try:
-        data = get_historia_clinica(cedula)
-
-        if "error" in data:
-            raise Http404(data["error"])
-
-        return _consultar_historia_clinica_con_breaker(request, data)
+        return _consultar_historia_clinica_con_breaker(request, cedula)
 
     except Http404:
         raise
@@ -32,7 +27,15 @@ def consultar_historia_clinica(request, cedula):
         return render(request, "error_historia_clinica.html", status=503)
 
 @historia_clinica_circuit_breaker
-def _consultar_historia_clinica_con_breaker(request, data):
+def _consultar_historia_clinica_con_breaker(request, cedula):
+    if not cedula.isdigit():
+        raise Exception("Cédula inválida enviada al sistema")  
+
+    data = get_historia_clinica(cedula)
+
+    if "error" in data:
+        raise Http404(data["error"])
+
     return render(request, "historia_clinica.html", data)
 
 def verificar_paciente(request, cedula):

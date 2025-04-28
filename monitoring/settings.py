@@ -84,9 +84,6 @@ DATABASES = {
         'PASSWORD': 'isis2503',
         'HOST': '10.128.0.2',
         'PORT': '',
-        'OPTIONS': {
-            'options': '-c statement_timeout=8000', 
-        }
     }
 }
 
