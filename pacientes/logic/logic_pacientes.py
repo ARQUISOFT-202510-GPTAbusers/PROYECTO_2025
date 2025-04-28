@@ -1,12 +1,14 @@
-import time
+from django.db import connection
 from ..models import Paciente
 from historias_clinicas.models import HistoriaClinica
 from signos_vitales.models import SignosVitales
 
 def get_historia_clinica(cedula):
-    """Consulta la historia clínica y los signos vitales de un paciente por su cédula."""
-    time.sleep(10)
+    """Consulta la historia clínica y los signos vitales de un paciente por su cédula."""        
     try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT pg_sleep(10);")
+
         paciente = Paciente.objects.get(cedula=cedula) 
         historia = HistoriaClinica.objects.get(paciente=paciente)
         signos_vitales = SignosVitales.objects.get(historia_clinica=historia)
