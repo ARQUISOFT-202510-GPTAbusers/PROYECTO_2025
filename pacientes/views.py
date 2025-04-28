@@ -16,18 +16,20 @@ historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
     reset_timeout=60
 )
 
-@historia_clinica_circuit_breaker
 def consultar_historia_clinica(request, cedula):
     try:
-        data = get_historia_clinica(cedula)
-
-        if "error" in data:
-            raise Http404(data["error"]) 
-
-        return render(request, "historia_clinica.html", data)
-    
+        return _consultar_historia_clinica_con_breaker(request, cedula)
     except CircuitBreakerError:
         return render(request, "error_historia_clinica.html", status=503)
+
+@historia_clinica_circuit_breaker
+def _consultar_historia_clinica_con_breaker(request, cedula):
+    data = get_historia_clinica(cedula)
+
+    if "error" in data:
+        raise Http404(data["error"])
+
+    return render(request, "historia_clinica.html", data)
 
 def verificar_paciente(request, cedula):
     existe = Paciente.objects.filter(cedula=cedula).exists()
