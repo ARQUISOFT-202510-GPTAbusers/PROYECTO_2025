@@ -24,6 +24,7 @@ def consultar_historia_clinica(request, cedula):
             raise Http404(data["error"]) 
 
         return render(request, "historia_clinica.html", data)
+    
     except CircuitBreakerError:
         return render(request, "error_historia_clinica.html", status=503)
 
