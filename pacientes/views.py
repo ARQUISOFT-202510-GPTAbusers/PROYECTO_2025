@@ -16,6 +16,7 @@ historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
     reset_timeout=60
 )
 
+@historia_clinica_circuit_breaker
 def consultar_historia_clinica(request, cedula):
     try:
         data = get_historia_clinica(cedula)
