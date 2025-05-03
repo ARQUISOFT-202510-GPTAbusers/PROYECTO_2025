@@ -10,14 +10,14 @@ from pacientes.models import Paciente
 from historias_clinicas.models import HistoriaClinica
 from signos_vitales.models import SignosVitales
 
-def poblar_base_datos(n=2500):
+def poblar_base_datos(n=10000):
     fake = Faker()
     
     for _ in range(n):
         paciente = Paciente(
             nombre=fake.first_name(),
             apellido=fake.last_name(),
-            fecha_nacimiento=fake.date_of_birth(minimum_age=18, maximum_age=90),
+            fecha_nacimiento=fake.date_of_birth(minimum_age=5, maximum_age=90),
             genero=random.choice(["Masculino", "Femenino", "Otro"]),
             cedula=fake.unique.random_number(digits=10),
             correo=fake.unique.email(),
