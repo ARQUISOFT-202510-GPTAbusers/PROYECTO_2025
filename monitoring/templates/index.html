@@ -1,1 +1,81 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a SADER</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #a485bf, #e3d5f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            max-width: 520px;
+            width: 90%;
+            backdrop-filter: blur(4px);
+        }
+
+        .card img.logo {
+            width: 90px;
+            margin-bottom: 25px;
+        }
+
+        .card h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4a0072;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 35px;
+        }
+
+        .btn-login {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background-color: #4a0072;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #6d3f91;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="{% static 'media/epilepsia.webp' %}" alt="Logo SADER" class="logo">
+        <h1>Bienvenido a SADER</h1>
+        <p>Para acceder a los servicios clínicos del sistema, por favor inicie sesión con su cuenta profesional.</p>
+        <a href="{% url 'login' %}" class="btn-login">Iniciar sesión</a>
+        <footer>
+            <div>&copy; 2025 SADER - Sistema de Apoyo al Diagnóstico de la Epilepsia Refractaria.</div>
+        </footer>
+    </div>
+</body>
+</html>
