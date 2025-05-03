@@ -52,4 +52,4 @@ def poblar_base_datos(n=10000):
         signos.save()
 
 if __name__ == "__main__":
-    poblar_base_datos(2500)
+    poblar_base_datos()
