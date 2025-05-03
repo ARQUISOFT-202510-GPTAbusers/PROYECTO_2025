@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,8 +12,16 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="/">Historias Clínicas</a>
+        <div class="container d-flex justify-content-between align-items-center w-100">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="{% static 'epilepsia.webp' %}" alt="Logo SADER" width="40" height="40" class="d-inline-block align-top mr-2">
+                <span class="ml-2 font-weight-bold">SADER</span>
+            </a>
+
+            <div>
+                <span class="navbar-text mr-3">👤 {{ user.username }}</span>
+                <a class="btn btn-outline-danger btn-sm" href="/logout">Cerrar sesión</a>
+            </div>
         </div>
     </nav>
 

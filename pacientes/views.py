@@ -10,17 +10,51 @@ from signos_vitales.forms import SignosVitalesForm
 from django.views.decorators.csrf import csrf_exempt
 import pybreaker
 from pybreaker import CircuitBreakerError
+from django.contrib.auth.decorators import login_required
 
 historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
     fail_max = 2,
     reset_timeout = 60
 )
 
+@login_required
 def consultar_historia_clinica(request, cedula):
     try:
         verificar_cedula(request, cedula)
         data = get_historia_clinica(cedula)
 
+        if "error" in data:
+            raise Http404(data["error"])
+
+        return render(request, "historia_clinica.html", data)
+
+    except Http404:
+        raise
+
+    except CircuitBreakerError:
+        return render(request, "error_historia_clinica.html", status=503)
+    
+from django.contrib.auth.decorators import login_required
+from monitoring.auth0backend import getRole
+from datetime import date
+from django.http import HttpResponseForbidden
+
+@login_required
+def consultar_historia_clinica(request, cedula):
+    try:
+        verificar_cedula(request, cedula)
+        role = getRole(request)
+
+        if role == "Administrativo":
+            paciente = Paciente.objects.filter(cedula=cedula).first()
+            if not paciente:
+                raise Http404("Paciente no encontrado")
+
+            edad = (date.today() - paciente.fecha_nacimiento).days // 365
+            if edad < 18:
+                return HttpResponseForbidden("No tiene permisos para consultar historias clínicas de menores de edad.")
+
+        data = get_historia_clinica(cedula)
         if "error" in data:
             raise Http404(data["error"])
 
@@ -42,7 +76,13 @@ def verificar_paciente(request, cedula):
     return JsonResponse({'existe': existe})
 
 @csrf_exempt
+@login_required
 def crear_historia_clinica(request, cedula):
+    role = getRole(request)
+
+    if role == "Administrativo":
+        return HttpResponseForbidden("No tiene permisos para crear historias clínicas.")
+    
     if Paciente.objects.filter(cedula=cedula).exists():
         return HttpResponseBadRequest("Ya existe un paciente con esta cédula.")
 

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'pacientes',
     'historias_clinicas',
     'signos_vitales',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,26 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'static'),
 ]
+
+# === CONFIGURACIÓN AUTH0 ===
+
+LOGIN_URL = "/login/auth0"
+LOGIN_REDIRECT_URL = "/dashboard"
+LOGOUT_REDIRECT_URL = "https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/v2/logout?returnTo=http%3A%2F%2F34.133.158.74:8080"
+
+SOCIAL_AUTH_TRAILING_SLASH = False  # Remove end slash from routes
+SOCIAL_AUTH_AUTH0_DOMAIN = "dev-z5pfxhgu4mfs7iq8.us.auth0.com"
+SOCIAL_AUTH_AUTH0_KEY = "IlgibyNesZOmi4gtWxTWrkMNJowtpv5x"
+SOCIAL_AUTH_AUTH0_SECRET = "XWwgXvr624aXepaVB21FHIXAGjSTBgNM4-FbsvBeGWEcxsf3uAHHkoYxMbyJeFHl"
+
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+    'email',
+    'role',
+]
+
+AUTHENTICATION_BACKENDS = (
+    'monitoring.auth0backend.Auth0',
+    'django.contrib.auth.backends.ModelBackend',
+)
