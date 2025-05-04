@@ -108,10 +108,11 @@
 
         textarea {
             resize: vertical;
-            min-height: 50px;
-            border: 1px solid #ccc;
-            outline: none;
-            background-clip: padding-box;
+            min-height: 20px;
+        }
+
+        textarea::-webkit-resizer {
+            display: none;
         }
 
         button {
