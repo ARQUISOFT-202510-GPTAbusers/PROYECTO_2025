@@ -111,9 +111,28 @@
             font-size: 1rem;
         }
 
-        .btn-purple {
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-consultar {
             background-color: #6a1b9a;
             color: white;
+        }
+
+        .btn-actualizar {
+            background-color: #a55fc5;
+            color: white;
+        }
+
+        .btn-crear {
+            background-color: #005cb2;
+            color: white;
+        }
+
+        .btn-consultar, .btn-actualizar, .btn-crear {
             padding: 12px 26px;
             border: none;
             border-radius: 8px;
@@ -121,15 +140,19 @@
             text-decoration: none;
             display: inline-block;
             transition: background-color 0.3s ease;
+            flex: 1;
         }
 
-        .btn-purple:hover {
+        .btn-consultar:hover {
             background-color: #4a0072;
         }
 
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
+        .btn-actualizar:hover {
+            background-color: #944db8;
+        }
+
+        .btn-crear:hover {
+            background-color: #004494;
         }
 
         .error {
@@ -159,8 +182,9 @@
                     <input type="text" id="cedula" name="cedula" placeholder="Ej: 1234567890" required>
                 </div>
                 <div class="btn-group">
-                    <button type="submit" class="btn-purple">Consultar</button>
-                    <button type="button" class="btn-purple" id="crearBtn">Crear</button>
+                    <button type="button" class="btn-consultar" id="consultarBtn">Consultar</button>
+                    <button type="button" class="btn-actualizar" id="actualizarBtn">Actualizar</button>
+                    <button type="button" class="btn-crear" id="crearBtn">Crear</button>
                 </div>
                 <div id="mensaje-error" class="error" style="display: none;"></div>
             </form>
@@ -168,21 +192,16 @@
     </div>
 
     <script>
-        document.getElementById("historiaForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const cedula = document.getElementById("cedula").value.trim();
-            if (cedula !== "") {
-                window.location.href = `/pacientes/historia-clinica/${cedula}/`;
-            }
-        });
-
-        document.getElementById("crearBtn").addEventListener("click", function() {
-            const cedula = document.getElementById("cedula").value.trim();
+        function mostrarError(mensaje) {
             const mensajeError = document.getElementById("mensaje-error");
+            mensajeError.style.display = "block";
+            mensajeError.textContent = mensaje;
+        }
 
+        document.getElementById("consultarBtn").addEventListener("click", function() {
+            const cedula = document.getElementById("cedula").value.trim();
             if (cedula === "") {
-                mensajeError.style.display = "block";
-                mensajeError.textContent = "Por favor ingrese la cédula antes de crear una historia clínica.";
+                mostrarError("Por favor ingrese la cédula antes de consultar una historia clínica.");
                 return;
             }
 
@@ -190,16 +209,50 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.existe) {
-                        mensajeError.style.display = "block";
-                        mensajeError.textContent = "Ya existe una historia clínica para esta cédula.";
+                        window.location.href = `/pacientes/historia-clinica/${cedula}/`;
+                    } else {
+                        mostrarError("No existe una historia clínica registrada con esta cédula.");
+                    }
+                })
+                .catch(() => mostrarError("Error al verificar la cédula. Intente de nuevo."));
+        });
+
+        document.getElementById("actualizarBtn").addEventListener("click", function() {
+            const cedula = document.getElementById("cedula").value.trim();
+            if (cedula === "") {
+                mostrarError("Por favor ingrese la cédula antes de actualizar una historia clínica..");
+                return;
+            }
+
+            fetch(`/pacientes/verificar-paciente/${cedula}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.existe) {
+                        window.location.href = `/pacientes/actualizar-historia-clinica/${cedula}/`;
+                    } else {
+                        mostrarError("No existe una historia clínica registrada con esta cédula.");
+                    }
+                })
+                .catch(() => mostrarError("Error al verificar la cédula. Intente de nuevo."));
+        });
+
+        document.getElementById("crearBtn").addEventListener("click", function() {
+            const cedula = document.getElementById("cedula").value.trim();
+            if (cedula === "") {
+                mostrarError("Por favor ingrese la cédula antes de crear una historia clínica.");
+                return;
+            }
+
+            fetch(`/pacientes/verificar-paciente/${cedula}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.existe) {
+                        mostrarError("Ya existe una historia clínica registrada con esta cédula.");
                     } else {
                         window.location.href = `/pacientes/crear-historia-clinica/${cedula}/`;
                     }
                 })
-                .catch(error => {
-                    mensajeError.style.display = "block";
-                    mensajeError.textContent = "Error al verificar la cédula. Intente de nuevo.";
-                });
+                .catch(() => mostrarError("Error al verificar la cédula. Intente de nuevo."));
         });
     </script>
 </body>
