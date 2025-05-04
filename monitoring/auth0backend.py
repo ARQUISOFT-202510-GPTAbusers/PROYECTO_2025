@@ -31,17 +31,14 @@ class Auth0(BaseOAuth2):
             'user_id': userinfo['sub']
         }
 
-import requests
-
 def getRole(request):
-    auth0user = request.user.social_auth.get(provider="auth0")
-    access_token = auth0user.extra_data["access_token"]
-
+    user = request.user
+    auth0user = user.social_auth.filter(provider="auth0")[0]
+    accessToken = auth0user.extra_data['access_token']
     url = "https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/userinfo"
-    headers = {"authorization": f"Bearer {access_token}"}
-
+    headers = {'authorization': 'Bearer ' + accessToken}
     resp = requests.get(url, headers=headers)
     userinfo = resp.json()
-
-    # Devuelve el rol desde el claim personalizado
-    return userinfo["https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/role"]
+    print(userinfo)
+    role = userinfo["https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/role"]
+    return (role)
