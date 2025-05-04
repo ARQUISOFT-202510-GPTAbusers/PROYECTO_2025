@@ -144,9 +144,12 @@ def actualizar_historia_clinica(request, cedula):
         signos_form = SignosVitalesForm(request.POST, instance=signos)
 
         if paciente_form.is_valid() and historia_form.is_valid() and signos_form.is_valid():
-            paciente_form.save()
-            historia_form.save()
-            signos_form.save()
+            if paciente_form.has_changed():
+                paciente_form.save()
+            if historia_form.has_changed():
+                historia_form.save()
+            if signos_form.has_changed():
+                signos_form.save()
 
             return consultar_historia_clinica(request, cedula)
         else:
