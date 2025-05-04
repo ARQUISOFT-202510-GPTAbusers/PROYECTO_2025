@@ -35,10 +35,16 @@ def getRole(request):
     user = request.user
     auth0user = user.social_auth.filter(provider="auth0")[0]
     accessToken = auth0user.extra_data['access_token']
-    url = "https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/userinfo"
-    headers = {'authorization': 'Bearer ' + accessToken}
-    resp = requests.get(url, headers=headers)
-    userinfo = resp.json()
-    print(userinfo)
-    role = userinfo["https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/role"]
-    return (role)
+    user_id = auth0user.uid 
+
+    url = f"https://dev-z5pfxhgu4mfs7iq8.us.auth0.com/api/v2/users/{user_id}/roles"
+    headers = {
+        'Authorization': f'Bearer {accessToken}',
+    }
+
+    response = requests.get(url, headers=headers)
+    roles = response.json()
+
+    if roles and isinstance(roles, list):
+        return roles[0]["name"] 
+    return None

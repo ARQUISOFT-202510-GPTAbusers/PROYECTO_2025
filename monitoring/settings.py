@@ -147,7 +147,6 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
     'profile',
     'email',
-    'role',
 ]
 
 AUTHENTICATION_BACKENDS = (
