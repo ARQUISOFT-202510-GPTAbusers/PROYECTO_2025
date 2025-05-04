@@ -46,11 +46,9 @@ def consultar_historia_clinica(request, cedula):
         role = getRole(request)
 
         if role == "Administrativo":
-            paciente = Paciente.objects.filter(cedula=cedula).first()
-            if not paciente:
-                raise Http404("Paciente no encontrado")
-
+            paciente = Paciente.objects.get(cedula=cedula)
             edad = (date.today() - paciente.fecha_nacimiento).days // 365
+            
             if edad < 18:
                 return HttpResponseForbidden("No tiene permisos para consultar historias clínicas de menores de edad.")
 
