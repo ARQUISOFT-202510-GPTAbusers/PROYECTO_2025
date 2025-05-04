@@ -122,3 +122,53 @@ def crear_historia_clinica(request, cedula):
         'signos_form': signos_form,
         'cedula': cedula
     })
+
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from .models import Paciente, HistoriaClinica, SignosVitales
+from .forms import PacienteForm, HistoriaClinicaForm, SignosVitalesForm
+
+@csrf_exempt
+@login_required
+def actualizar_historia_clinica(request, cedula):
+    role = getRole(request)
+
+    if role == "Administrativo":
+        return HttpResponseForbidden("No tiene permisos para actualizar historias clínicas.")
+    
+    paciente = get_object_or_404(Paciente, cedula=cedula)
+    historia = get_object_or_404(HistoriaClinica, paciente=paciente)
+    signos = SignosVitales.objects.filter(historia_clinica=historia).order_by('-fecha_medicion').first()
+
+    if request.method == 'POST':
+        paciente_form = PacienteForm(request.POST, instance=paciente)
+        historia_form = HistoriaClinicaForm(request.POST, instance=historia)
+        signos_form = SignosVitalesForm(request.POST, instance=signos)
+
+        if paciente_form.is_valid() and historia_form.is_valid() and signos_form.is_valid():
+            paciente_form.save()
+            historia_form.save()
+            signos_form.save()
+
+            return consultar_historia_clinica(request, cedula)
+        else:
+            return render(request, 'actualizar_historia_clinica.html', {
+                'paciente_form': paciente_form,
+                'historia_form': historia_form,
+                'signos_form': signos_form,
+                'cedula': cedula,
+                'errores': True
+            })
+
+    paciente_form = PacienteForm(instance=paciente)
+    historia_form = HistoriaClinicaForm(instance=historia)
+    signos_form = SignosVitalesForm(instance=signos)
+
+    return render(request, 'actualizar_historia_clinica.html', {
+        'paciente_form': paciente_form,
+        'historia_form': historia_form,
+        'signos_form': signos_form,
+        'cedula': cedula
+    })

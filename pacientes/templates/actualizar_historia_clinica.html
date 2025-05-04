@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar Historia Clínica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #a485bf, #e3d5f5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            width: 100%;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            width: 40px;
+        }
+
+        .brand strong {
+            margin-left: 25px;
+            color: #6a1b9a;
+            font-size: 1.6rem;
+        }
+
+        .btn-volver {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background-color: #4a0072;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 850px;
+            margin: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            color: #6a1b9a;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            padding-top: 8px;
+            padding-bottom: 16px;
+            border-top: 1px solid #cba6e4;
+        }
+
+        .section h3 {
+            margin-top: 6px;
+            margin-bottom: 12px;
+            color: #6a1b9a;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;   
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        textarea::-webkit-resizer {
+            display: none;
+        }
+
+        button {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        button:hover {
+            background-color: #4a0072;
+        }
+
+        .form-errors {
+            color: #d32f2f;
+            background: #ffe0e0;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="brand">
+            <img src="{% static 'epilepsia.webp' %}" alt="Logo SADER">
+            <strong>SADER</strong>
+        </div>
+        <a href="/dashboard" class="btn-volver">Volver</a>
+    </div>
+
+    <div class="card">
+        <h2>Actualizar Historia Clínica</h2>
+
+        {% if errores %}
+        <div class="form-errors">
+            <strong>⚠️ Errores en el formulario:</strong><br>
+            {{ paciente_form.errors }}
+            {{ historia_form.errors }}
+            {{ signos_form.errors }}
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'actualizar_historia_clinica' cedula=cedula %}">
+            {% csrf_token %}
+
+            <div class="section">
+                <h3>Datos del Paciente</h3>
+                {{ paciente_form.nombre.label_tag }} {{ paciente_form.nombre }}
+                {{ paciente_form.apellido.label_tag }} {{ paciente_form.apellido }}
+                {{ paciente_form.cedula.label_tag }} {{ paciente_form.cedula }}
+                {{ paciente_form.fecha_nacimiento.label_tag }} {{ paciente_form.fecha_nacimiento }}
+                {{ paciente_form.genero.label_tag }} {{ paciente_form.genero }}
+                {{ paciente_form.tipo_sangre.label_tag }} {{ paciente_form.tipo_sangre }}
+                {{ paciente_form.eps.label_tag }} {{ paciente_form.eps }}
+            </div>
+
+            <div class="section">
+                <h3>Contacto</h3>
+                {{ paciente_form.correo.label_tag }} {{ paciente_form.correo }}
+                {{ paciente_form.telefono.label_tag }} {{ paciente_form.telefono }}
+                {{ paciente_form.direccion.label_tag }} {{ paciente_form.direccion }}
+            </div>
+
+            <div class="section">
+                <h3>Contacto de Emergencia</h3>
+                {{ paciente_form.contacto_emergencia_nombre.label_tag }} {{ paciente_form.contacto_emergencia_nombre }}
+                {{ paciente_form.contacto_emergencia_telefono.label_tag }} {{ paciente_form.contacto_emergencia_telefono }}
+                {{ paciente_form.relacion_contacto.label_tag }} {{ paciente_form.relacion_contacto }}
+            </div>
+
+            <div class="section">
+                <h3>Antecedentes Médicos</h3>
+                {{ historia_form.antecedentes_personales.label_tag }} {{ historia_form.antecedentes_personales }}
+                {{ historia_form.antecedentes_familiares.label_tag }} {{ historia_form.antecedentes_familiares }}
+                {{ historia_form.alergias.label_tag }} {{ historia_form.alergias }}
+                {{ historia_form.medicamentos_actuales.label_tag }} {{ historia_form.medicamentos_actuales }}
+            </div>
+
+            <div class="section">
+                <h3>Signos Vitales</h3>
+                {{ signos_form.presion_arterial.label_tag }} {{ signos_form.presion_arterial }}
+                {{ signos_form.frecuencia_cardiaca.label_tag }} {{ signos_form.frecuencia_cardiaca }}
+                {{ signos_form.frecuencia_respiratoria.label_tag }} {{ signos_form.frecuencia_respiratoria }}
+                {{ signos_form.temperatura.label_tag }} {{ signos_form.temperatura }}
+                {{ signos_form.saturacion_oxigeno.label_tag }} {{ signos_form.saturacion_oxigeno }}
+            </div>
+
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cedulaInput = document.getElementById("id_cedula");
+            if (cedulaInput) {
+                cedulaInput.readOnly = true;
+            }
+        });
+    </script>
+</body>
+</html>
