@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import Http404
 from .logic.logic_pacientes import get_historia_clinica
 from .models import Paciente
+from historias_clinicas.models import HistoriaClinica
+from signos_vitales.models import SignosVitales
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
 from historias_clinicas.forms import HistoriaClinicaForm
@@ -11,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pybreaker
 from pybreaker import CircuitBreakerError
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 historia_clinica_circuit_breaker = pybreaker.CircuitBreaker(
     fail_max = 2,
@@ -122,13 +125,6 @@ def crear_historia_clinica(request, cedula):
         'signos_form': signos_form,
         'cedula': cedula
     })
-
-from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
-from .models import Paciente, HistoriaClinica, SignosVitales
-from .forms import PacienteForm, HistoriaClinicaForm, SignosVitalesForm
 
 @csrf_exempt
 @login_required
