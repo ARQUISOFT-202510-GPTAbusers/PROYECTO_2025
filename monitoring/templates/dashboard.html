@@ -92,6 +92,10 @@
             margin-bottom: 25px;
         }
 
+        form {
+            width: 100%;
+        }
+
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -105,16 +109,18 @@
 
         .form-group input {
             width: 100%;
-            padding: 10px;
+            padding: 10px 16px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         .btn-group {
             display: flex;
             justify-content: space-between;
             gap: 10px;
+            width: 100%;
         }
 
         .btn-consultar {
@@ -157,7 +163,8 @@
 
         .error {
             color: #d32f2f;
-            margin-top: 15px;
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -198,7 +205,14 @@
             mensajeError.textContent = mensaje;
         }
 
-        document.getElementById("consultarBtn").addEventListener("click", function() {
+        function limpiarError() {
+            const mensajeError = document.getElementById("mensaje-error");
+            mensajeError.style.display = "none";
+            mensajeError.textContent = "";
+        }
+
+        document.getElementById("consultarBtn").addEventListener("click", function () {
+            limpiarError();
             const cedula = document.getElementById("cedula").value.trim();
             if (cedula === "") {
                 mostrarError("Por favor ingrese la cédula antes de consultar una historia clínica.");
@@ -217,10 +231,11 @@
                 .catch(() => mostrarError("Error al verificar la cédula. Intente de nuevo."));
         });
 
-        document.getElementById("actualizarBtn").addEventListener("click", function() {
+        document.getElementById("actualizarBtn").addEventListener("click", function () {
+            limpiarError();
             const cedula = document.getElementById("cedula").value.trim();
             if (cedula === "") {
-                mostrarError("Por favor ingrese la cédula antes de actualizar una historia clínica..");
+                mostrarError("Por favor ingrese la cédula antes de actualizar una historia clínica.");
                 return;
             }
 
@@ -236,7 +251,8 @@
                 .catch(() => mostrarError("Error al verificar la cédula. Intente de nuevo."));
         });
 
-        document.getElementById("crearBtn").addEventListener("click", function() {
+        document.getElementById("crearBtn").addEventListener("click", function () {
+            limpiarError();
             const cedula = document.getElementById("cedula").value.trim();
             if (cedula === "") {
                 mostrarError("Por favor ingrese la cédula antes de crear una historia clínica.");
