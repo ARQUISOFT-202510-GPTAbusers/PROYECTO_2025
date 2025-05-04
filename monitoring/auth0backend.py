@@ -44,6 +44,7 @@ def getRole(request):
 
     response = requests.get(url, headers=headers)
     roles = response.json()
+    print(roles)
 
     if roles and isinstance(roles, list):
         return roles[0]["name"] 
