@@ -11,9 +11,52 @@
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(to bottom right, #a485bf, #e3d5f5);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: white;
+            width: 100%;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand img {
+            width: 40px;
+        }
+
+        .brand strong {
+            margin-left: 25px;
+            color: #6a1b9a;
+            font-size: 1.6rem;
+        }
+
+        .btn-volver {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 12px 26px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background-color: #4a0072;
         }
 
         .card {
@@ -21,11 +64,11 @@
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             padding: 40px;
-            width: 90%;
-            max-width: 800px;
+            width: 100%;
+            max-width: 850px;
         }
 
-        h1, h2 {
+        h2 {
             text-align: center;
             color: #6a1b9a;
             margin-bottom: 20px;
@@ -33,6 +76,7 @@
 
         .section {
             padding: 15px 0;
+            color: #6a1b9a;
             border-bottom: 1px solid #ccc;
         }
 
@@ -52,11 +96,20 @@
     </style>
 </head>
 <body>
+
+    <div class="navbar">
+        <div class="brand">
+            <img src="{% static 'epilepsia.webp' %}" alt="Logo SADER">
+            <strong>SADER</strong>
+        </div>
+        <a href="/dashboard" class="btn-volver">Volver</a>
+    </div>
+
     <div class="card">
-        <h1>Historia Clínica</h1>
+        <h2>Historia Clínica</h2>
 
         <div class="section">
-            <h2>Datos del Paciente</h2>
+            <h3>Datos del Paciente</h3>
             <p><span class="label">Nombre:</span> {{ paciente.nombre }} {{ paciente.apellido }}</p>
             <p><span class="label">Cédula:</span> {{ paciente.cedula }}</p>
             <p><span class="label">Fecha de Nacimiento:</span> {{ paciente.fecha_nacimiento }}</p>
@@ -66,21 +119,21 @@
         </div>
 
         <div class="section">
-            <h2>Contacto</h2>
+            <h3>Contacto</h3>
             <p><span class="label">Correo:</span> {{ paciente.correo }}</p>
             <p><span class="label">Teléfono:</span> {{ paciente.telefono }}</p>
             <p><span class="label">Dirección:</span> {{ paciente.direccion }}</p>
         </div>
 
         <div class="section">
-            <h2>Contacto de Emergencia</h2>
+            <h3>Contacto de Emergencia</h3>
             <p><span class="label">Nombre:</span> {{ paciente.contacto_emergencia_nombre }}</p>
             <p><span class="label">Teléfono:</span> {{ paciente.contacto_emergencia_telefono }}</p>
             <p><span class="label">Relación:</span> {{ paciente.relacion_contacto }}</p>
         </div>
 
         <div class="section">
-            <h2>Antecedentes Médicos</h2>
+            <h3>Antecedentes Médicos</h3>
             <p><span class="label">Antecedentes Personales:</span> {{ historia_clinica.antecedentes_personales }}</p>
             <p><span class="label">Antecedentes Familiares:</span> {{ historia_clinica.antecedentes_familiares }}</p>
             <p><span class="label">Alergias:</span> {{ historia_clinica.alergias }}</p>
@@ -88,7 +141,7 @@
         </div>
 
         <div class="section">
-            <h2>Última Evaluación de Signos Vitales</h2>
+            <h3>Última Evaluación de Signos Vitales</h3>
             <p><span class="label">Fecha de Medición:</span> {{ signos_vitales.fecha_medicion }}</p>
             <p><span class="label">Presión Arterial:</span> {{ signos_vitales.presion_arterial }}</p>
             <p><span class="label">Frecuencia Cardíaca:</span> {{ signos_vitales.frecuencia_cardiaca }} bpm</p>
@@ -97,5 +150,6 @@
             <p><span class="label">Saturación de Oxígeno:</span> {{ signos_vitales.saturacion_oxigeno }} %</p>
         </div>
     </div>
+
 </body>
 </html>
