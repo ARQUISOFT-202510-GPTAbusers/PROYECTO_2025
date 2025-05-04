@@ -4,49 +4,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historias Clínicas</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <title>Dashboard | SADER</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #a485bf, #e3d5f5);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar img {
+            width: 40px;
+        }
+
+        .navbar .brand strong {
+            margin-left: 25px;
+            color: #6a1b9a;
+            font-size: 1.2rem;
+        }
+
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .user-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 25px;
+        }
+
+        .navbar .user-info span {
+            margin-right: 40px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #4a0072;
+            color: white;
+            text-decoration: none;
+        }
+
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 520px;
+            text-align: center;
+        }
+
+        .card h2 {
+            color: #6a1b9a;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .btn-purple {
+            background-color: #6a1b9a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-purple:hover {
+            background-color: #4a0072;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error {
+            color: #d32f2f;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container d-flex justify-content-between align-items-center w-100">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{% static 'epilepsia.webp' %}" alt="Logo SADER" width="40" height="40" class="d-inline-block align-top mr-2">
-                <span class="ml-2 font-weight-bold">SADER</span>
-            </a>
-
-            <div>
-                <span class="navbar-text mr-3">👤 {{ user.username }}</span>
-                <a class="btn btn-outline-danger btn-sm" href="/logout">Cerrar sesión</a>
-            </div>
+    <nav class="navbar">
+        <div class="brand">
+            <img src="{% static 'epilepsia.webp' %}" alt="Logo SADER">
+            <strong>SADER</strong>
+        </div>
+        <div class="user-info">
+            <img src="{{ user.social_auth.first.extra_data.picture }}" alt="Foto de perfil">
+            <span>{{ user.email }}</span>
+            <a href="/logout" class="btn-logout">Cerrar sesión</a>
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h5>Gestión de Historias Clínicas</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="historiaForm">
-                            <div class="form-group">
-                                <label for="cedula">Ingrese la cédula del paciente:</label>
-                                <input type="text" class="form-control" id="cedula" name="cedula" required placeholder="Ej: 1234567890">
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <button type="submit" class="btn btn-primary">Consultar</button>
-                                <button type="button" class="btn btn-success" id="crearBtn">Crear</button>
-                            </div>
-                        </form>
-                        <div id="mensaje-error" class="text-danger mt-3" style="display: none;"></div>
-                    </div>
+    <div class="main">
+        <div class="card">
+            <h2>Gestión de Historias Clínicas</h2>
+            <form id="historiaForm">
+                <div class="form-group">
+                    <label for="cedula">Ingrese la cédula del paciente:</label>
+                    <input type="text" id="cedula" name="cedula" placeholder="Ej: 1234567890" required>
                 </div>
-            </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn-purple">Consultar</button>
+                    <button type="button" class="btn-purple" id="crearBtn">Crear</button>
+                </div>
+                <div id="mensaje-error" class="error" style="display: none;"></div>
+            </form>
         </div>
     </div>
 
