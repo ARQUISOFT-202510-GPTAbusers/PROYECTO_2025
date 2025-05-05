@@ -142,6 +142,7 @@ SOCIAL_AUTH_TRAILING_SLASH = False  # Remove end slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = "dev-z5pfxhgu4mfs7iq8.us.auth0.com"
 SOCIAL_AUTH_AUTH0_KEY = "IlgibyNesZOmi4gtWxTWrkMNJowtpv5x"
 SOCIAL_AUTH_AUTH0_SECRET = "XWwgXvr624aXepaVB21FHIXAGjSTBgNM4-FbsvBeGWEcxsf3uAHHkoYxMbyJeFHl"
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
